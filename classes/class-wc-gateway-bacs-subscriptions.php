@@ -44,6 +44,7 @@ class WC_Gateway_Bancs_Subscriptions extends WC_Payment_Gateway {
 		$this->description  = $this->get_option( 'description' );
 		$this->instructions = $this->get_option( 'instructions' );
 		$this->emailsend    = $this->get_option( 'emailsend' );
+		$this->log          = new WC_Logger();
 		
 		// BACS account fields shown on the thanks page and in emails.
 		$this->account_details = get_option(
@@ -462,7 +463,17 @@ class WC_Gateway_Bancs_Subscriptions extends WC_Payment_Gateway {
 	public function doing_scheduled_subscription_payment( $amount_to_charge, $renewal_order ) {
 
 		$order_id    = $renewal_order->get_id();
-		$redsys_done = get_post_meta( $order_id, '_redsys_done', true );
+		//$redsys_done = get_post_meta( $order_id, '_redsys_done', true );
+		
+			$this->log->add( 'bankssubscriptions', ' ' );
+			$this->log->add( 'bankssubscriptions', '/****************************/' );
+			$this->log->add( 'bankssubscriptions', '       Once upon a time       ' );
+			$this->log->add( 'bankssubscriptions', '/****************************/' );
+			$this->log->add( 'bankssubscriptions', ' ' );
+			$this->log->add( 'bankssubscriptions', '/***************************************/' );
+			$this->log->add( 'bankssubscriptions', '  Doing scheduled_subscription_payment   ' );
+			$this->log->add( 'bankssubscriptions', '/***************************************/' );
+			$this->log->add( 'bankssubscriptions', ' ' );
 		
 		$renewal_order->update_status( 'bank-transfer-subs', __( 'Pending Redsys Bank Transfer', 'woocommerce-redsys' ) );
 	
