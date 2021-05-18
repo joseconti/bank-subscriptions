@@ -30,7 +30,7 @@ if ( ! defined( 'WOO_BANK_TRA_SUB_PLUGIN_PATH_P' ) ) {
 	define( 'WOO_BANK_TRA_SUB_PLUGIN_PATH_P', plugin_dir_path( __FILE__ ) );
 }
 
-add_action( 'plugins_loaded', 'woocommerce_gateway_bank_transfer_subscriptions_init', 11 );
+add_action( 'plugins_loaded', 'woocommerce_gateway_bank_transfer_subscriptions_init' );
 
 function woocommerce_gateway_bank_transfer_subscriptions_init() {
 
