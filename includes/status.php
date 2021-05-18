@@ -79,12 +79,10 @@
  
 	function bank_trans_sub_extends_can_be_updated( $can_be_updated, $new_status, $subscription ) {
 		
-		if ( $new_status === 'bank-transfersubs' ) {
-			if ( $subscription->payment_method_supports( 'subscription_suspension' ) && $subscription->has_status( array( 'active', 'pending', 'on-hold' ) ) ) {
-				$can_be_updated = true;
-			} else {
-				$can_be_updated = false;
-			}
+		if ( $subscription->payment_method_supports( 'subscription_suspension' ) && $subscription->has_status( array( 'active', 'pending', 'on-hold', 'bank-transfersubs' ) ) ) {
+			$can_be_updated = true;
+		} else {
+			$can_be_updated = false;
 		}
 		return $can_be_updated;
 	}
