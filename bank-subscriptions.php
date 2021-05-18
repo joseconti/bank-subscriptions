@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Plugin Name: WooCommerce Bank Transfer Subscription
+ * Plugin Name: WooCommerce Bank Transfer Subscriptions
  * Plugin URI: https://www.joseconti.com
  * Description: Extends WooCommerce Bank Transfer with Subscription compatibility
  * Version: 1.0.0
@@ -11,7 +11,7 @@
  * WC requires at least: 3.0
  * WC tested up to: 5.1
  * Woo: 187871:50392593e834002d8bee386333d1ed3c
- * Text Domain: woocommerce-bank-transfer-subscription
+ * Text Domain: woocommerce-bank-transfer-subscriptions
  * Domain Path: /languages/
  * Copyright: (C) 2013 - 2021 José Conti
  * License: GNU General Public License v3.0
@@ -81,12 +81,12 @@ function woocommerce_gateway_bank_transfer_subscriptions_init() {
 	    if ( $order->has_status('bank-transfersubs') ) {
 	        $actions['processing'] = array(
 	            'url'    => wp_nonce_url( admin_url( 'admin-ajax.php?action=woocommerce_mark_order_status&status=processing&order_id=' . $order->get_id() ), 'woocommerce-mark-order-status' ),
-	            'name'   => __( 'Processing', 'woocommerce' ),
+	            'name'   => __( 'Processing', 'woocommerce-bank-transfer-subscriptions' ),
 	            'action' => 'processing',
 	        );
 	        $actions['complete'] = array(
 	            'url'    => wp_nonce_url( admin_url( 'admin-ajax.php?action=woocommerce_mark_order_status&status=completed&order_id=' . $order->get_id() ), 'woocommerce-mark-order-status' ),
-	            'name'   => __( 'Complete', 'woocommerce' ),
+	            'name'   => __( 'Complete', 'woocommerce-bank-transfer-subscriptions' ),
 	            'action' => 'complete',
 	        );
 	    }

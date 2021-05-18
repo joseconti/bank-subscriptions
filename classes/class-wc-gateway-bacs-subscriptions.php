@@ -32,8 +32,8 @@ class WC_Gateway_Bancs_Subscriptions extends WC_Payment_Gateway {
 		$this->id                 = 'bankssubscriptions';
 		$this->icon               = apply_filters( 'woocommerce_bankssubscriptions_icon', '' );
 		$this->has_fields         = false;
-		$this->method_title       = __( 'Direct bank transfer Subscriptions', 'woocommerce' );
-		$this->method_description = __( 'Take payments in person via BACS. More commonly known as direct bank/wire transfer', 'woocommerce' );
+		$this->method_title       = __( 'Direct bank transfer Subscriptions', 'woocommerce-bank-transfer-subscriptions' );
+		$this->method_description = __( 'Take payments in person via BACS. More commonly known as direct bank/wire transfer', 'woocommerce-bank-transfer-subscriptions' );
 
 		// Load the settings.
 		$this->init_form_fields();
@@ -94,36 +94,36 @@ class WC_Gateway_Bancs_Subscriptions extends WC_Payment_Gateway {
 
 		$this->form_fields = array(
 			'enabled'         => array(
-				'title'   => __( 'Enable/Disable', 'woocommerce' ),
+				'title'   => __( 'Enable/Disable', 'woocommerce-bank-transfer-subscriptions' ),
 				'type'    => 'checkbox',
-				'label'   => __( 'Enable bank transfer', 'woocommerce' ),
+				'label'   => __( 'Enable bank transfer', 'woocommerce-bank-transfer-subscriptions' ),
 				'default' => 'no',
 			),
 			'emailsend'           => array(
-				'title'       => __( 'Email', 'woocommerce' ),
+				'title'       => __( 'Email', 'woocommerce-bank-transfer-subscriptions' ),
 				'type'        => 'text',
-				'description' => __( 'An email of your company for sending an email alerting about bank transfer (an email will be sent automatically to customer).', 'woocommerce' ),
-				'default'     => __( '', 'woocommerce' ),
+				'description' => __( 'An email of your company for sending an email alerting about bank transfer (an email will be sent automatically to customer).', 'woocommerce-bank-transfer-subscriptions' ),
+				'default'     => __( '', 'woocommerce-bank-transfer-subscriptions' ),
 				'desc_tip'    => true,
 			),
 			'title'           => array(
-				'title'       => __( 'Title', 'woocommerce' ),
+				'title'       => __( 'Title', 'woocommerce-bank-transfer-subscriptions' ),
 				'type'        => 'text',
-				'description' => __( 'This controls the title which the user sees during checkout.', 'woocommerce' ),
-				'default'     => __( 'Direct bank transfer', 'woocommerce' ),
+				'description' => __( 'This controls the title which the user sees during checkout.', 'woocommerce-bank-transfer-subscriptions' ),
+				'default'     => __( 'Direct bank transfer', 'woocommerce-bank-transfer-subscriptions' ),
 				'desc_tip'    => true,
 			),
 			'description'     => array(
-				'title'       => __( 'Description', 'woocommerce' ),
+				'title'       => __( 'Description', 'woocommerce-bank-transfer-subscriptions' ),
 				'type'        => 'textarea',
-				'description' => __( 'Payment method description that the customer will see on your checkout.', 'woocommerce' ),
-				'default'     => __( 'Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.', 'woocommerce' ),
+				'description' => __( 'Payment method description that the customer will see on your checkout.', 'woocommerce-bank-transfer-subscriptions' ),
+				'default'     => __( 'Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.', 'woocommerce-bank-transfer-subscriptions' ),
 				'desc_tip'    => true,
 			),
 			'instructions'    => array(
-				'title'       => __( 'Instructions', 'woocommerce' ),
+				'title'       => __( 'Instructions', 'woocommerce-bank-transfer-subscriptions' ),
 				'type'        => 'textarea',
-				'description' => __( 'Instructions that will be added to the thank you page and emails.', 'woocommerce' ),
+				'description' => __( 'Instructions that will be added to the thank you page and emails.', 'woocommerce-bank-transfer-subscriptions' ),
 				'default'     => '',
 				'desc_tip'    => true,
 			),
@@ -147,23 +147,23 @@ class WC_Gateway_Bancs_Subscriptions extends WC_Payment_Gateway {
 		$locale  = $this->get_country_locale();
 
 		// Get sortcode label in the $locale array and use appropriate one.
-		$sortcode = isset( $locale[ $country ]['sortcode']['label'] ) ? $locale[ $country ]['sortcode']['label'] : __( 'Sort code', 'woocommerce' );
+		$sortcode = isset( $locale[ $country ]['sortcode']['label'] ) ? $locale[ $country ]['sortcode']['label'] : __( 'Sort code', 'woocommerce-bank-transfer-subscriptions' );
 
 		?>
 		<tr valign="top">
-			<th scope="row" class="titledesc"><?php esc_html_e( 'Account details:', 'woocommerce' ); ?></th>
+			<th scope="row" class="titledesc"><?php esc_html_e( 'Account details:', 'woocommerce-bank-transfer-subscriptions' ); ?></th>
 			<td class="forminp" id="bacs_accounts">
 				<div class="wc_input_table_wrapper">
 					<table class="widefat wc_input_table sortable" cellspacing="0">
 						<thead>
 							<tr>
 								<th class="sort">&nbsp;</th>
-								<th><?php esc_html_e( 'Account name', 'woocommerce' ); ?></th>
-								<th><?php esc_html_e( 'Account number', 'woocommerce' ); ?></th>
-								<th><?php esc_html_e( 'Bank name', 'woocommerce' ); ?></th>
+								<th><?php esc_html_e( 'Account name', 'woocommerce-bank-transfer-subscriptions' ); ?></th>
+								<th><?php esc_html_e( 'Account number', 'woocommerce-bank-transfer-subscriptions' ); ?></th>
+								<th><?php esc_html_e( 'Bank name', 'woocommerce-bank-transfer-subscriptions' ); ?></th>
 								<th><?php echo esc_html( $sortcode ); ?></th>
-								<th><?php esc_html_e( 'IBAN', 'woocommerce' ); ?></th>
-								<th><?php esc_html_e( 'BIC / Swift', 'woocommerce' ); ?></th>
+								<th><?php esc_html_e( 'IBAN', 'woocommerce-bank-transfer-subscriptions' ); ?></th>
+								<th><?php esc_html_e( 'BIC / Swift', 'woocommerce-bank-transfer-subscriptions' ); ?></th>
 							</tr>
 						</thead>
 						<tbody class="accounts">
@@ -188,7 +188,7 @@ class WC_Gateway_Bancs_Subscriptions extends WC_Payment_Gateway {
 						</tbody>
 						<tfoot>
 							<tr>
-								<th colspan="7"><a href="#" class="add button"><?php esc_html_e( '+ Add account', 'woocommerce' ); ?></a> <a href="#" class="remove_rows button"><?php esc_html_e( 'Remove selected account(s)', 'woocommerce' ); ?></a></th>
+								<th colspan="7"><a href="#" class="add button"><?php esc_html_e( '+ Add account', 'woocommerce-bank-transfer-subscriptions' ); ?></a> <a href="#" class="remove_rows button"><?php esc_html_e( 'Remove selected account(s)', 'woocommerce-bank-transfer-subscriptions' ); ?></a></th>
 							</tr>
 						</tfoot>
 					</table>
@@ -309,7 +309,7 @@ class WC_Gateway_Bancs_Subscriptions extends WC_Payment_Gateway {
 		$locale  = $this->get_country_locale();
 
 		// Get sortcode label in the $locale array and use appropriate one.
-		$sortcode = isset( $locale[ $country ]['sortcode']['label'] ) ? $locale[ $country ]['sortcode']['label'] : __( 'Sort code', 'woocommerce' );
+		$sortcode = isset( $locale[ $country ]['sortcode']['label'] ) ? $locale[ $country ]['sortcode']['label'] : __( 'Sort code', 'woocommerce-bank-transfer-subscriptions' );
 
 		$bacs_accounts = apply_filters( 'woocommerce_bankssubscriptions_accounts', $this->account_details, $order_id );
 
@@ -331,11 +331,11 @@ class WC_Gateway_Bancs_Subscriptions extends WC_Payment_Gateway {
 					'woocommerce_bankssubscriptions_account_fields',
 					array(
 						'bank_name'      => array(
-							'label' => __( 'Bank', 'woocommerce' ),
+							'label' => __( 'Bank', 'woocommerce-bank-transfer-subscriptions' ),
 							'value' => $bacs_account->bank_name,
 						),
 						'account_number' => array(
-							'label' => __( 'Account number', 'woocommerce' ),
+							'label' => __( 'Account number', 'woocommerce-bank-transfer-subscriptions' ),
 							'value' => $bacs_account->account_number,
 						),
 						'sort_code'      => array(
@@ -343,11 +343,11 @@ class WC_Gateway_Bancs_Subscriptions extends WC_Payment_Gateway {
 							'value' => $bacs_account->sort_code,
 						),
 						'iban'           => array(
-							'label' => __( 'IBAN', 'woocommerce' ),
+							'label' => __( 'IBAN', 'woocommerce-bank-transfer-subscriptions' ),
 							'value' => $bacs_account->iban,
 						),
 						'bic'            => array(
-							'label' => __( 'BIC', 'woocommerce' ),
+							'label' => __( 'BIC', 'woocommerce-bank-transfer-subscriptions' ),
 							'value' => $bacs_account->bic,
 						),
 					),
@@ -365,7 +365,7 @@ class WC_Gateway_Bancs_Subscriptions extends WC_Payment_Gateway {
 			}
 
 			if ( $has_details ) {
-				echo '<section class="woocommerce-bacs-bank-details"><h2 class="wc-bacs-bank-details-heading">' . esc_html__( 'Our bank details', 'woocommerce' ) . '</h2>' . wp_kses_post( PHP_EOL . $account_html ) . '</section>';
+				echo '<section class="woocommerce-bacs-bank-details"><h2 class="wc-bacs-bank-details-heading">' . esc_html__( 'Our bank details', 'woocommerce-bank-transfer-subscriptions' ) . '</h2>' . wp_kses_post( PHP_EOL . $account_html ) . '</section>';
 			}
 		}
 
@@ -383,7 +383,7 @@ class WC_Gateway_Bancs_Subscriptions extends WC_Payment_Gateway {
 
 		if ( $order->get_total() > 0 ) {
 			// Mark as on-hold (we're awaiting the payment).
-			$order->update_status( apply_filters( 'woocommerce_bankssubscriptions_process_payment_order_status', 'on-hold', $order ), __( 'Awaiting BACS payment', 'woocommerce' ) );
+			$order->update_status( apply_filters( 'woocommerce_bankssubscriptions_process_payment_order_status', 'on-hold', $order ), __( 'Awaiting BACS payment', 'woocommerce-bank-transfer-subscriptions' ) );
 		} else {
 			$order->payment_complete();
 		}
@@ -414,42 +414,42 @@ class WC_Gateway_Bancs_Subscriptions extends WC_Payment_Gateway {
 				array(
 					'AU' => array(
 						'sortcode' => array(
-							'label' => __( 'BSB', 'woocommerce' ),
+							'label' => __( 'BSB', 'woocommerce-bank-transfer-subscriptions' ),
 						),
 					),
 					'CA' => array(
 						'sortcode' => array(
-							'label' => __( 'Bank transit number', 'woocommerce' ),
+							'label' => __( 'Bank transit number', 'woocommerce-bank-transfer-subscriptions' ),
 						),
 					),
 					'IN' => array(
 						'sortcode' => array(
-							'label' => __( 'IFSC', 'woocommerce' ),
+							'label' => __( 'IFSC', 'woocommerce-bank-transfer-subscriptions' ),
 						),
 					),
 					'IT' => array(
 						'sortcode' => array(
-							'label' => __( 'Branch sort', 'woocommerce' ),
+							'label' => __( 'Branch sort', 'woocommerce-bank-transfer-subscriptions' ),
 						),
 					),
 					'NZ' => array(
 						'sortcode' => array(
-							'label' => __( 'Bank code', 'woocommerce' ),
+							'label' => __( 'Bank code', 'woocommerce-bank-transfer-subscriptions' ),
 						),
 					),
 					'SE' => array(
 						'sortcode' => array(
-							'label' => __( 'Bank code', 'woocommerce' ),
+							'label' => __( 'Bank code', 'woocommerce-bank-transfer-subscriptions' ),
 						),
 					),
 					'US' => array(
 						'sortcode' => array(
-							'label' => __( 'Routing number', 'woocommerce' ),
+							'label' => __( 'Routing number', 'woocommerce-bank-transfer-subscriptions' ),
 						),
 					),
 					'ZA' => array(
 						'sortcode' => array(
-							'label' => __( 'Branch code', 'woocommerce' ),
+							'label' => __( 'Branch code', 'woocommerce-bank-transfer-subscriptions' ),
 						),
 					),
 				)
