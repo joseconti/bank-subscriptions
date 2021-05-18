@@ -69,7 +69,7 @@ function woocommerce_gateway_bank_transfer_subscriptions_init() {
 			$new_statuses_arr[ $id ] = $label;
 	
 			if ( 'wc-processing' === $id ) { // after "Completed" status
-				$new_statuses_arr['wc-bank-transfer-subs'] = __( 'Pending Redsys Bank Transfer', 'woocommerce-redsys' );
+				$new_statuses_arr['wc-bank-transfer-subs'] = __( 'Pending Bank Transfer', 'woocommerce-redsys' );
 			}
 		}
 		return $new_statuses_arr;
