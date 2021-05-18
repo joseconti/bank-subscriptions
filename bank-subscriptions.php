@@ -30,4 +30,4 @@ if ( ! defined( 'WOO_BANK_TRA_SUB_PLUGIN_PATH_P' ) ) {
 	define( 'WOO_BANK_TRA_SUB_PLUGIN_PATH_P', plugin_dir_path( __FILE__ ) );
 }
 
-require_once WOO_BANK_TRA_SUB_PLUGIN_URL_P . 'classes/class-wc-gateway-bacs-subscriptions.php';
+require_once WOO_BANK_TRA_SUB_PLUGIN_PATH_P . 'classes/class-wc-gateway-bacs-subscriptions.php';
