@@ -10,12 +10,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Provides a Bank Transfer Payment Gateway. Based on code by Mike Pepper.
  * Extndes Subscription functionality by Jose Conti
  *
- * @class       WC_Gateway_Bacs_Subscriptions
+ * @class       WC_Gateway_Bancs_Subscriptions
  * @extends     WC_Payment_Gateway
  * @version     1.0.0
  * @package     WooCommerce\Classes\Payment
  */
-class WC_Gateway_Bacs_Subscriptions extends WC_Payment_Gateway {
+class WC_Gateway_Bancs_Subscriptions extends WC_Payment_Gateway {
 
 	/**
 	 * Array of locales
@@ -43,7 +43,8 @@ class WC_Gateway_Bacs_Subscriptions extends WC_Payment_Gateway {
 		$this->title        = $this->get_option( 'title' );
 		$this->description  = $this->get_option( 'description' );
 		$this->instructions = $this->get_option( 'instructions' );
-
+		$this->emailsend    = $this->get_option( 'emailsend' );
+		
 		// BACS account fields shown on the thanks page and in emails.
 		$this->account_details = get_option(
 			'woocommerce_bankssubscriptions_accounts',
@@ -79,6 +80,13 @@ class WC_Gateway_Bacs_Subscriptions extends WC_Payment_Gateway {
 				'type'    => 'checkbox',
 				'label'   => __( 'Enable bank transfer', 'woocommerce' ),
 				'default' => 'no',
+			),
+			'emailsend'           => array(
+				'title'       => __( 'Email', 'woocommerce' ),
+				'type'        => 'text',
+				'description' => __( 'An email of your company for sending an email alerting about bank transfer (an email will be sent automatically to customer).', 'woocommerce' ),
+				'default'     => __( '', 'woocommerce' ),
+				'desc_tip'    => true,
 			),
 			'title'           => array(
 				'title'       => __( 'Title', 'woocommerce' ),
@@ -439,7 +447,7 @@ class WC_Gateway_Bacs_Subscriptions extends WC_Payment_Gateway {
 * Copyright: (C) 2013 - 2021 José Conti
 */
 function woocommerce_add_gateway_bank_transfer_subscription( $methods ) {
-		$methods[] = 'WC_Gateway_Bacs_Subscriptions';
+		$methods[] = 'WC_Gateway_Bancs_Subscriptions';
 		return $methods;
 }
 add_filter( 'woocommerce_payment_gateways', 'woocommerce_add_gateway_bank_transfer_subscription' );
