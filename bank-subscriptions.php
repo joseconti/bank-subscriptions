@@ -30,16 +30,6 @@ if ( ! defined( 'WOO_BANK_TRA_SUB_PLUGIN_PATH_P' ) ) {
 	define( 'WOO_BANK_TRA_SUB_PLUGIN_PATH_P', plugin_dir_path( __FILE__ ) );
 }
 
-add_action( 'plugins_loaded', 'woocommerce_gateway_bank_transfer_subscriptions_init', 11 );
-
-function woocommerce_gateway_bank_transfer_subscriptions_init() {
-
-	if ( ! class_exists( 'WC_Payment_Gateway' ) ) {
-		return;
-	}
-	require_once WOO_BANK_TRA_SUB_PLUGIN_PATH_P . 'classes/class-wc-gateway-bacs-subscriptions.php';
-}
-
 /*
 * Copyright: (C) 2013 - 2021 José Conti
 */
@@ -58,3 +48,33 @@ function bank_trans_sub_register_pending_bank_transfer_payment_status() {
 	);
 }
 add_action( 'init', 'bank_trans_sub_register_pending_bank_transfer_payment_status' );
+
+/*
+* Copyright: (C) 2013 - 2021 José Conti
+*/
+function bank_trans_sub_add_pending_bank_transfer_payment_status( $wc_statuses_arr ) {
+
+	$new_statuses_arr = array();
+
+	// add new order status after processing
+	foreach ( $wc_statuses_arr as $id => $label ) {
+		$new_statuses_arr[ $id ] = $label;
+
+		if ( 'wc-processing' === $id ) { // after "Completed" status
+			$new_statuses_arr['wc-bank-transfer-subs'] = __( 'Pending Redsys Bank Transfer', 'woocommerce-redsys' );
+		}
+	}
+	return $new_statuses_arr;
+}
+add_filter( 'wc_order_statuses', 'bank_trans_sub_add_pending_bank_transfer_payment_status' );
+
+add_action( 'plugins_loaded', 'woocommerce_gateway_bank_transfer_subscriptions_init', 11 );
+
+function woocommerce_gateway_bank_transfer_subscriptions_init() {
+
+	if ( ! class_exists( 'WC_Payment_Gateway' ) ) {
+		return;
+	}
+	require_once WOO_BANK_TRA_SUB_PLUGIN_PATH_P . 'classes/class-wc-gateway-bacs-subscriptions.php';
+}
+
