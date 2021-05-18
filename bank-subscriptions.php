@@ -75,6 +75,19 @@ function woocommerce_gateway_bank_transfer_subscriptions_init() {
 		return $new_statuses_arr;
 	}
 	add_filter( 'wc_order_statuses', 'bank_trans_sub_add_pending_bank_transfer_payment_status' );
+	
+	function bank_trans_sub_order_actions( $actions, $order ) {
+	    // Display the "complete" action button for orders that have a 'shipped' status
+	    if ( $order->has_status('bank-transfersubs') ) {
+	        $actions['complete'] = array(
+	            'url'    => wp_nonce_url( admin_url( 'admin-ajax.php?action=woocommerce_mark_order_status&status=completed&order_id=' . $order->get_id() ), 'woocommerce-mark-order-status' ),
+	            'name'   => __( 'Complete', 'woocommerce' ),
+	            'action' => 'complete',
+	        );
+	    }
+	    return $actions;
+	}
+	add_filter( 'woocommerce_admin_order_actions', 'bank_trans_sub_order_actions', 10, 2 );
 
 	require_once WOO_BANK_TRA_SUB_PLUGIN_PATH_P . 'classes/class-wc-gateway-bacs-subscriptions.php';
 }
