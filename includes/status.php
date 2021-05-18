@@ -64,8 +64,10 @@
 	add_filter( 'woocommerce_admin_order_actions', 'bank_trans_sub_order_actions', 10, 2 );
  
 	function bank_trans_sub_post_status_subs( $registered_statuses ) {
+		
 		$registered_statuses['wc-bank-transfersubs'] = _n_noop( __( 'Pending Bank Transfer <span class="count">(%s)</span>', 'woocommerce-redsys' ), __( 'Pending Bank Transfer <span class="count">(%s)</span>', 'woocommerce-redsys' ) );
 		return $registered_statuses;
+		
 	}
 	add_filter( 'woocommerce_subscriptions_registered_statuses','bank_trans_sub_post_status_subs', 100, 1 );
 	
@@ -74,3 +76,25 @@
 		return $subscription_statuses;
 	}
 	add_filter( 'wcs_subscription_statuses', 'bank_trans_sub_add_new_subscription_statuses', 100, 1 );
+ 
+	function bank_trans_sub_extends_can_be_updated( $can_be_updated, $new_status, $subscription ) {
+		
+		if ( $new_status === 'bank-transfersubs' ) {
+			if ( $subscription->payment_method_supports( 'subscription_suspension' ) && $subscription->has_status( array( 'active', 'pending', 'on-hold' ) ) ) {
+				$can_be_updated = true;
+			} else {
+				$can_be_updated = false;
+			}
+		}
+		return $can_be_updated;
+	}
+	add_filter( 'woocommerce_can_subscription_be_updated_to', 'bank_trans_sub_extends_can_be_updated', 100, 3 );
+ 
+	function bank_trans_sub_extends_update_status( $subscription, $new_status, $old_status ) {
+		if ( $new_status == 'bank-transfersubs' ) {
+			$subscription->update_suspension_count( $subscription->suspension_count + 1 );
+			wcs_maybe_make_user_inactive( $subscription->customer_user );
+		}
+	}
+	add_action( 'woocommerce_subscription_status_updated', 'bank_trans_sub_extends_update_status', 100, 3 );
+	
