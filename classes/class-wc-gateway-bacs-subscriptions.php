@@ -32,7 +32,7 @@ class WC_Gateway_Bacs_Subscriptions extends WC_Payment_Gateway {
 		$this->id                 = 'bankssubscriptions';
 		$this->icon               = apply_filters( 'woocommerce_bankssubscriptions_icon', '' );
 		$this->has_fields         = false;
-		$this->method_title       = __( 'Direct bank transfer', 'woocommerce' );
+		$this->method_title       = __( 'Direct bank transfer Subscriptions', 'woocommerce' );
 		$this->method_description = __( 'Take payments in person via BACS. More commonly known as direct bank/wire transfer', 'woocommerce' );
 
 		// Load the settings.
@@ -435,3 +435,11 @@ class WC_Gateway_Bacs_Subscriptions extends WC_Payment_Gateway {
 
 	}
 }
+/**
+* Copyright: (C) 2013 - 2021 José Conti
+*/
+function woocommerce_add_gateway_bank_transfer_subscription( $methods ) {
+		$methods[] = 'WC_Gateway_Bacs_Subscriptions';
+		return $methods;
+}
+add_filter( 'woocommerce_payment_gateways', 'woocommerce_add_gateway_bank_transfer_subscription' );
