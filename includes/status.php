@@ -71,23 +71,16 @@
 	}
 	add_filter( 'woocommerce_subscriptions_registered_statuses','bank_trans_sub_post_status_subs', 100, 1 );
 	
-	function bank_trans_sub_add_new_subscription_statuses($subscription_statuses) {
+	function bank_trans_sub_add_new_subscription_statuses( $subscription_statuses ) {
 		$subscription_statuses['wc-bank-transfersubs'] = _x( 'Pending Bank Transfer', 'Subscription status', 'custom-wcs-status-texts');
 		return $subscription_statuses;
 	}
 	add_filter( 'wcs_subscription_statuses', 'bank_trans_sub_add_new_subscription_statuses', 100, 1 );
  
 	function bank_trans_sub_extends_can_be_updated( $can_be_updated, $new_status, $subscription ) {
-		
+
 		if ( $new_status === 'bank-transfersubs' ) {
-			if ( $subscription->payment_method_supports( 'subscription_suspension' ) && $subscription->has_status( array( 'active', 'pending', 'on-hold', 'bank-transfersubs' ) ) ) {
-				$can_be_updated = true;
-			} else {
-				$can_be_updated = false;
-			}
-		}
-		if ( $new_status === 'active' ) {
-			if ( $subscription->payment_method_supports( 'subscription_suspension' ) && $subscription->has_status( array( 'on-hold', 'bank-transfersubs' ) ) ) {
+			if ( $subscription->payment_method_supports( 'subscription_suspension' ) && $subscription->has_status( array( 'active', 'pending', 'on-hold', '' ) ) ) {
 				$can_be_updated = true;
 			} else {
 				$can_be_updated = false;
@@ -104,4 +97,34 @@
 		}
 	}
 	add_action( 'woocommerce_subscription_status_updated', 'bank_trans_sub_extends_update_status', 100, 3 );
+	
+	function bank_trans_sub_update_status_to_complete_or_processing( $order_id, $old_status, $new_status, $order ) {
+		$log = new WC_logger();
+		$log->add( 'bankssubscriptions', '$order_id:' . $order_id );
+		$log->add( 'bankssubscriptions', '$old_status:' . $old_status );
+		$log->add( 'bankssubscriptions', '$new_status:' . $new_status );
+		
+		if ( 'bank-transfersubs' === $old_status && ( 'completed' === $new_status ||  'processing' === $new_status ) ) {
+			
+			$subscriptions = wcs_get_subscriptions_for_order( $order_id, array( 'order_type' => 'any' ) );
+			foreach ( $subscriptions as $subscription_id => $subscription ) {
+				$subscription->update_status( 'active' );
+			}
+		}
+	}
+	add_action( 'woocommerce_order_status_changed', 'bank_trans_sub_update_status_to_complete_or_processing', 99, 4 );
+	
+	function bank_trans_sub_enable_active_in_new_statuses( $can_be_updated, $subscription ) {
+        
+        if ( $subscription->payment_method_supports( 'subscription_reactivation' ) && $subscription->has_status( array( 'on-hold', 'bank-transfersubs' ) ) ) {
+            $can_be_updated = true;
+        } elseif ( $subscription->has_status( 'pending' ) ) {
+            $can_be_updated = true;
+        } else {
+            $can_be_updated = false;
+        }
+        return $can_be_updated;
+    }
+	
+	add_filter('woocommerce_can_subscription_be_updated_to_active', 'bank_trans_sub_enable_active_in_new_statuses', 100, 2);
 	
