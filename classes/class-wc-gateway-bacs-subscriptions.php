@@ -460,7 +460,7 @@ class WC_Gateway_Bancs_Subscriptions extends WC_Payment_Gateway {
 		$order_id    = $renewal_order->get_id();
 		$redsys_done = get_post_meta( $order_id, '_redsys_done', true );
 		
-		$renewal_order-->update_status( 'bank-transfer-subs', __( 'Pending Redsys Bank Transfer', 'woocommerce-redsys' ) );
+		$renewal_order->update_status( 'bank-transfer-subs', __( 'Pending Redsys Bank Transfer', 'woocommerce-redsys' ) );
 	
 	}
 }
