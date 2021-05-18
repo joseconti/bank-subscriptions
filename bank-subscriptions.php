@@ -79,15 +79,15 @@ function woocommerce_gateway_bank_transfer_subscriptions_init() {
 	function bank_trans_sub_order_actions( $actions, $order ) {
 	    // Display the "complete" action button for orders that have a 'shipped' status
 	    if ( $order->has_status('bank-transfersubs') ) {
-	        $actions['complete'] = array(
-	            'url'    => wp_nonce_url( admin_url( 'admin-ajax.php?action=woocommerce_mark_order_status&status=completed&order_id=' . $order->get_id() ), 'woocommerce-mark-order-status' ),
-	            'name'   => __( 'Complete', 'woocommerce' ),
-	            'action' => 'complete',
-	        );
 	        $actions['processing'] = array(
 	            'url'    => wp_nonce_url( admin_url( 'admin-ajax.php?action=woocommerce_mark_order_status&status=processing&order_id=' . $order->get_id() ), 'woocommerce-mark-order-status' ),
 	            'name'   => __( 'Processing', 'woocommerce' ),
 	            'action' => 'processing',
+	        );
+	        $actions['complete'] = array(
+	            'url'    => wp_nonce_url( admin_url( 'admin-ajax.php?action=woocommerce_mark_order_status&status=completed&order_id=' . $order->get_id() ), 'woocommerce-mark-order-status' ),
+	            'name'   => __( 'Complete', 'woocommerce' ),
+	            'action' => 'complete',
 	        );
 	    }
 	    return $actions;
