@@ -475,7 +475,7 @@ class WC_Gateway_Bancs_Subscriptions extends WC_Payment_Gateway {
 			$this->log->add( 'bankssubscriptions', '/***************************************/' );
 			$this->log->add( 'bankssubscriptions', ' ' );
 		
-		$renewal_order->update_status( 'bank-transfer-subs', __( 'Pending Bank Transfer', 'woocommerce-redsys' ) );
+		$renewal_order->update_status( 'bank-transfersubs', __( 'Pending Bank Transfer', 'woocommerce-redsys' ) );
 	
 	}
 }
