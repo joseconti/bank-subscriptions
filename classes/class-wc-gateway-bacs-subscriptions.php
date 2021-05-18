@@ -78,6 +78,7 @@ class WC_Gateway_Bancs_Subscriptions extends WC_Payment_Gateway {
 		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
 		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'save_account_details' ) );
 		add_action( 'woocommerce_thankyou_bankssubscriptions', array( $this, 'thankyou_page' ) );
+		add_action( 'woocommerce_thankyou', array( $this, 'custom_subscription_action_status' ), 50, 1 );
 
 		// Customer Emails.
 		add_action( 'woocommerce_email_before_order_table', array( $this, 'email_instructions' ), 10, 3 );
@@ -460,6 +461,7 @@ class WC_Gateway_Bancs_Subscriptions extends WC_Payment_Gateway {
 		return $this->locale;
 
 	}
+
 	public function doing_scheduled_subscription_payment( $amount_to_charge, $renewal_order ) {
 
 		$order_id    = $renewal_order->get_id();
@@ -475,8 +477,32 @@ class WC_Gateway_Bancs_Subscriptions extends WC_Payment_Gateway {
 			$this->log->add( 'bankssubscriptions', '/***************************************/' );
 			$this->log->add( 'bankssubscriptions', ' ' );
 		
-		$renewal_order->update_status( 'bank-transfersubs', __( 'Pending Bank Transfer', 'woocommerce-redsys' ) );
+		$subscriptions = wcs_get_subscriptions_for_order( $order_id, array( 'order_type' => 'any' ) );
+		$renewal_order->update_status( 'bank-transfersubs');
+		
+		foreach ( $subscriptions as $subscription_id => $subscription ) {
+			$this->log->add( 'bankssubscriptions', '$subscription_id:' . $subscription_id );
+			$subscription->update_status( 'bank-transfersubs' );
+		}
+	}
 	
+	function custom_subscription_action_status( $order_id ) {
+		if ( ! $order_id ) {
+			return;
+		}
+		
+		$order = wc_get_order( $order_id ); // Get an instance of the WC_Order object
+		
+		// If the order has a 'processing' status and contains a subscription 
+		
+		if ( wcs_order_contains_subscription( $order ) && $order->has_status( 'on-hold' ) ) {
+			$order->update_status( 'bank-transfersubs' );
+			// Get an array of WC_Subscription objects
+			$subscriptions = wcs_get_subscriptions_for_order( $order_id, array( 'order_type' => 'any' ) );
+			foreach ( $subscriptions as $subscription_id => $subscription ) {
+				$subscription->update_status( 'bank-transfersubs' );
+			}
+		}
 	}
 }
 /**
