@@ -44,7 +44,7 @@ function woocommerce_gateway_bank_transfer_subscriptions_init() {
 	function bank_trans_sub_register_pending_bank_transfer_payment_status() {
 	
 		register_post_status(
-			'wc-bank-transfer-subs',
+			'wc-bank-transfersubs',
 			array(
 				'label'                     => 'Pending Bank Transfer',
 				'public'                    => true,
@@ -69,7 +69,7 @@ function woocommerce_gateway_bank_transfer_subscriptions_init() {
 			$new_statuses_arr[ $id ] = $label;
 	
 			if ( 'wc-processing' === $id ) { // after "Completed" status
-				$new_statuses_arr['wc-bank-transfer-subs'] = __( 'Pending Bank Transfer', 'woocommerce-redsys' );
+				$new_statuses_arr['wc-bank-transfersubs'] = __( 'Pending Bank Transfer', 'woocommerce-redsys' );
 			}
 		}
 		return $new_statuses_arr;
