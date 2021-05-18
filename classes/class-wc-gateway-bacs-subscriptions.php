@@ -455,6 +455,14 @@ class WC_Gateway_Bancs_Subscriptions extends WC_Payment_Gateway {
 		return $this->locale;
 
 	}
+	public function doing_scheduled_subscription_payment( $amount_to_charge, $renewal_order ) {
+
+		$order_id    = $renewal_order->get_id();
+		$redsys_done = get_post_meta( $order_id, '_redsys_done', true );
+		
+		$renewal_order-->update_status( 'bank-transfer-subs', __( 'Pending Redsys Bank Transfer', 'woocommerce-redsys' ) );
+	
+	}
 }
 /**
 * Copyright: (C) 2013 - 2021 José Conti

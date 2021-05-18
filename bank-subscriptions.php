@@ -39,3 +39,22 @@ function woocommerce_gateway_bank_transfer_subscriptions_init() {
 	}
 	require_once WOO_BANK_TRA_SUB_PLUGIN_PATH_P . 'classes/class-wc-gateway-bacs-subscriptions.php';
 }
+
+/*
+* Copyright: (C) 2013 - 2021 José Conti
+*/
+function bank_trans_sub_register_pending_bank_transfer_payment_status() {
+
+	register_post_status(
+		'wc-bank-transfer-subs',
+		array(
+			'label'                     => 'Pending Bank Transfer',
+			'public'                    => true,
+			'show_in_admin_status_list' => true,
+			'show_in_admin_all_list'    => true,
+			'show_in_admin_status_list' => true, // show count All (12) , Completed (9) , Awaiting shipment (2) ...
+			'label_count'               => _n_noop( __( 'Pending Bank Transfer <span class="count">(%s)</span>', 'woocommerce-redsys' ), __( 'Pending Bank Transfer <span class="count">(%s)</span>', 'woocommerce-redsys' ) ),
+		)
+	);
+}
+add_action( 'init', 'bank_trans_sub_register_pending_bank_transfer_payment_status' );
