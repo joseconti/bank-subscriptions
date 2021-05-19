@@ -483,6 +483,8 @@ class WC_Gateway_Bancs_Subscriptions extends WC_Payment_Gateway {
 		foreach ( $subscriptions as $subscription_id => $subscription ) {
 			$this->log->add( 'bankssubscriptions', '$subscription_id:' . $subscription_id );
 			$subscription->update_status( 'bank-transfersubs' );
+			WC_Subscriptions_Email::send_renewal_order_email( $subscription_id );
+			WC_Subscriptions_Email::send_renewal_order_email( $order_id );
 		}
 	}
 	
